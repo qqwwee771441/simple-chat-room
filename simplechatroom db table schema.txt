@@ -1,0 +1,34 @@
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` INTEGER NOT NULL auto_increment,
+  `email` VARCHAR(40) UNIQUE,
+  `nick` VARCHAR(15) NOT NULL,
+  `password` VARCHAR(100),
+  `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updatedAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `deletedAt` DATETIME,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE utf8_general_ci;
+
+CREATE TABLE IF NOT EXISTS `rooms` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(255) NOT NULL,
+  `max` INT NOT NULL DEFAULT 10 CHECK (max >= 2),
+  `userId` INT NOT NULL,
+  `password` VARCHAR(255),
+  `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`userId`) REFERENCES `users` (`id`) on delete cascade on update cascade
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;
+
+
+CREATE TABLE IF NOT EXISTS `chats` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `roomId` INT NOT NULL,
+  `userId` INT NOT NULL,
+  `chat` TEXT,
+  `gif` TEXT,
+  `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY (`roomId`) REFERENCES `rooms` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (`userId`) REFERENCES `users` (`id`) on delete cascade on update cascade
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE utf8mb4_general_ci;

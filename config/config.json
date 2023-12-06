@@ -1,0 +1,8 @@
+{
+    "development": {
+        "username": "username",
+        "password": "password",
+        "database": "simplechatroom",
+        "host": "localhost"
+    }
+}

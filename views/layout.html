@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="/main.css">
+    <title>{{title}}</title>
+</head>
+<body>
+    <div class="container">
+        <div class="profile-wrap">
+            <div class="profile">
+                {% if user and user.id %}
+                <div class="user-name">{{'안녕하세요! ' + user.nick + '님'}}</div>
+                <a id="logout" href="/auth/logout" class="btn">로그아웃</a>
+                {% else %}
+                <form id="login-form" action="/auth/login" method="post">
+                    <div class="input-group">
+                        <label for="email">이메일</label>
+                        <input id="email" type="email" name="email" required autofocus>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">비밀번호</label>
+                        <input id="password" type="password" name="password" required>
+                    </div>
+                    <a id="join" href="/join" class="btn">회원가입</a>
+                    <button id="login" type="submit" class="btn">로그인</button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        {% block content %}
+        {% endblock %}
+    </div>
+    <script>
+        window.onload = () => {
+            if (new URL(location.href).searchParams.get('error')) {
+                alert(new URL(location.href).searchParams.get('error'));
+            }
+        };
+    </script>
+    {% block script %}
+    {% endblock %}
+</body>
+</html>
